@@ -1,21 +1,36 @@
 # Product definition: 松櫻祭
 
-## Current repository boundary · 2026-10-17
+## Current backend · 2026-10-17
 
-This is the independent **game PWA**, extracted from `fearnot221/evergreenbloom`.
-Deploy only with Docker / Compose (Dockerfile and docker/default.conf). Own routes:
-`/` redirects to `/game`; `/game`, `/play`, `/stamp/:spot` and a not-found page.
-The static official website, public map, festival news and program remain in the
-other repository. `VITE_WEBSITE_URL` is a build-time external-link setting.
-There is no runtime dependency on the official site for collecting prototype stamps.
-Offline core contains only this app's assets; map and public pages are not cached.
+The user authorized password accounts now, later SSO, server-validated stamps,
+database persistence and one redemption per account. Deployment has exactly one
+docker-compose.yml; compose.yaml and Nginx configuration were removed.
+One Node 24 app serves PWA + API; built-in SQLite uses the persistent game-data
+volume. No extra runtime package or database container was added.
 
-Copied design foundations retain v6 tokens and display-copy ownership. Earlier
-inventories below refer to the combined app and are historical, not current routes.
-No login, database, server-side stamp verification, photo review or redemption API
-has been added. Device-local prototype records do not migrate across origins.
-Docker must be served through HTTPS outside localhost for install/offline support.
-See README.md for deployment, checks and unimplemented production boundaries.
+server/app.mjs owns users (scrypt passwords, player/staff roles), hashed expiring
+sessions, unique user/spot stamps, pending-photo review and unique user redemption
+records. Public registration cannot choose a role. STAFF_USERNAME/PASSWORD
+bootstraps a trusted staff account; staff use ordinary account sessions, not API keys.
+SSO is not implemented and future identity linking needs explicit subject mapping.
+
+src/game/GamePage.tsx reads server records and submits tasks. QR handoff parsing is
+not validation; codes come from private runtime STAMP_KEYS, and quiz answers are
+server-only. Photos need consent, bounded upload and staff approval; a file alone
+never earns a stamp. New photo submissions change review IDs. Photos are removed
+from current records on review or after seven-day expiry; backup/WAL retention is a
+separate operational responsibility. /staff provides review, lookup, explicit prize
+handoff confirmation and recent receipt history. Transactions and UNIQUE(user_id)
+prevent duplicate redemption even under concurrent requests. Receipts keep the
+server time, staff username and stamp count. No receipt update/delete API exists.
+
+API responses and private images are no-store; service workers bypass /api/.
+Offline task/prize submission never succeeds optimistically. The former device-local
+stamp store is ignored; accounts survive browser resets by logging in again.
+No per-natural-person deduplication, self-service password recovery, inventory or
+external SSO is claimed. See README.md for API/deployment/security boundaries.
+Earlier combined-app and prototype inventories below are historical.
+
 
 ## Approval, status, and evidence
 

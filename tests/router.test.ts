@@ -6,7 +6,7 @@ describe('game routes', () => {
     const paths = routes[0].children?.[0].children?.map((route) =>
       route.index ? '/' : route.path,
     );
-    expect(paths).toEqual(['/', 'play', 'game', 'stamp/:spot', '*']);
+    expect(paths).toEqual(['/', 'play', 'game', 'staff', 'stamp/:spot', '*']);
   });
   it('forwards a QR claim to the install guide in a browser tab', async () => {
     const route = routes[0].children?.[0].children?.find((route) => route.path === 'stamp/:spot');

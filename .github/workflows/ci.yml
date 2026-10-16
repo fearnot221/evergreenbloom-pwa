@@ -8,6 +8,12 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_PROJECT_NAME: songying-ci
+      STAFF_USERNAME: ci-staff
+      STAFF_PASSWORD: ci-only-password-not-for-deployment
+      STAMP_KEYS: '{"lake":"CI-LAKE-CODE-12345678","library":"CI-PHOTO-CODE-12345678","gate":"CI-GATE-CODE-12345678"}'
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,9 +25,9 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      - run: docker build -t songying-pwa:test .
-      - run: docker run -d --name songying-pwa -p 8080:80 songying-pwa:test
-      - run: curl --fail --retry 10 --retry-all-errors --retry-delay 1 --max-time 5 http://localhost:8080/healthz
-      - run: curl --fail http://localhost:8080/stamp/lake?k=LAKE-26
-      - run: docker rm -f songying-pwa
+      - run: docker compose build
+      - run: docker compose up -d --wait --wait-timeout 90
+      - run: curl --fail http://localhost:8080/healthz
+      - run: curl --fail http://localhost:8080/stamp/lake?k=CI-LAKE-CODE-12345678
+      - run: docker compose down
         if: always()

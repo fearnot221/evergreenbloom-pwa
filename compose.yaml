@@ -1,9 +1,0 @@
-services:
-  pwa:
-    build:
-      context: .
-      args:
-        VITE_WEBSITE_URL: ${VITE_WEBSITE_URL:-https://fearnot221.github.io/evergreenbloom/}
-    ports:
-      - "127.0.0.1:${PWA_PORT:-8080}:80"
-    restart: unless-stopped

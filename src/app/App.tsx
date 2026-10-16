@@ -23,6 +23,7 @@ export default function App() {
           <nav aria-label="遊戲導覽" className="actions">
             <NavLink to="/game">集章冊</NavLink>
             <NavLink to="/play">安裝與說明</NavLink>
+            <NavLink to="/staff">工作人員</NavLink>
             <a href={websiteHref()}>活動官網</a>
           </nav>
         </div>
@@ -34,7 +35,7 @@ export default function App() {
       <footer className="app-footer">
         <div className="wrap">
           <PwaPanel />
-          <p className="note">集章遊戲原型，位置與任務待確認。登入與正式兌獎尚未開放。</p>
+          <p className="note">集章遊戲原型，位置與任務待確認。驗章與兌獎需要連線；SSO 尚未串接。</p>
           <a href={websiteHref()}>返回活動官網</a>
         </div>
       </footer>

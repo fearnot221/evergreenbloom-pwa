@@ -8,6 +8,7 @@
   "files": {
     "includes": [
       "src/**",
+      "server/**",
       "scripts/**",
       "tests/**",
       "*.ts",

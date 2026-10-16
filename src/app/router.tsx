@@ -32,6 +32,7 @@ export const routes: RouteObject[] = [
           { index: true, loader: ({ request }) => redirect(`/game${new URL(request.url).search}`) },
           { path: 'play', lazy: page(() => import('../pages/PlayPage')) },
           { path: 'game', lazy: page(() => import('../game/GamePage')) },
+          { path: 'staff', lazy: page(() => import('../game/StaffPage')) },
           // QR codes on site point here: /stamp/<spot>?k=<key>.
           {
             path: 'stamp/:spot',

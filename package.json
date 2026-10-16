@@ -10,9 +10,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "test": "vitest run",
+    "test": "vitest run && node --test tests/server.test.mjs",
     "fonts": "node scripts/fonts/build-display-font.mjs",
-    "check": "npm run lint && npm run typecheck && npm test"
+    "check": "npm run lint && npm run typecheck && npm test",
+    "server": "node --env-file=.env server/index.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

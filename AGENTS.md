@@ -152,3 +152,12 @@ website and map are in `fearnot221/evergreenbloom`. Do not restore website route
 or GitHub Pages deployment here. Run `npm run check` (Biome, TypeScript, Vitest),
 `npm run build` and Docker smoke tests for deployment changes. Geo tests belong to
 the website repository. Earlier combined-app inventories are historical.
+
+## Backend deployment rule (2026-10-17)
+
+Use exactly one docker-compose.yml. Node 24 serves PWA/API and persists SQLite in
+its named volume; do not reintroduce alternate Compose files, Nginx or a separate
+DB service without a demonstrated need. Password accounts are the current identity;
+SSO is future work. Never move station secrets, correct answers, staff authority or
+redemption decisions into the browser. Run npm run check (including native backend
+tests), build and the same Compose stack before handing back backend changes.

@@ -25,12 +25,12 @@ describe('game app', () => {
   }
   it('preserves the scanned claim in the install guide', () => {
     const html = render('/play?spot=lake&k=lake-26').replaceAll('<!-- -->', '');
-    expect(html).toContain('已記下「中大湖」');
+    expect(html).toContain('待驗證集章點「中大湖」');
     expect(html).toContain('LAKE-26');
     expect(html).toContain('https://fearnot221.github.io/evergreenbloom/map');
   });
-  it('does not accept a claim with a mismatched key', () => {
-    expect(render('/play?spot=lake&k=GATE-26')).not.toContain('已記下');
+  it('does not treat a QR handoff as server validation', () => {
+    expect(render('/play?spot=lake&k=GATE-26')).toContain('待驗證');
   });
   it('keeps the game in the installed app', () => {
     expect(render('/game')).toContain('只在安裝到主畫面');

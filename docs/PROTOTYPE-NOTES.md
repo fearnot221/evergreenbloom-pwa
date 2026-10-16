@@ -1,5 +1,55 @@
 # Prototype notes and historical records
 
+## Current pass · account-backed stamps and redemption (2026-10-17)
+
+Implemented in server/app.mjs, server/index.mjs and src/game/. The user clarified
+password accounts now, later SSO; staff privileges come from account roles rather
+than management keys. Public signup creates players only. The trusted staff account
+is bootstrapped from private runtime environment, with rotation revoking old sessions.
+
+There is exactly one docker-compose.yml. The prior compose.yaml and Nginx config
+are removed. One unprivileged Node 24 container serves static PWA + API; SQLite WAL
+and the persistent game-data volume hold users, hashed sessions, stamps, photos and
+receipts. No runtime dependency, ORM, auxiliary service, override or profile was added.
+
+Server verification checks private per-spot codes and quiz answers. Photo upload is
+bounded, consented and reviewed by staff; no client flag or file presence earns a
+stamp. Reuploads change review IDs to prevent approving an unseen replacement.
+Review removes current image bytes; an expiry task handles overdue pending photos.
+Server transactions and UNIQUE(user_id) enforce one redemption per account, with
+server time, staff identity and stamp count in an immutable-via-API receipt.
+
+Verified locally:
+- npm run check: Biome, TypeScript, 18 frontend tests and 8 native backend integration
+  tests. The backend cases exercise authentication, unauthorized role escalation,
+  CSRF, Secure/HttpOnly cookies, JSON/upload limits, invalid answers/codes, private
+  file isolation, photo review/reupload races, duplicate stamps and concurrent
+  once-only redemption, expiry/rotation, restart persistence and consistent backup.
+- npm run build, service-worker generation (21 public core resources); API is
+  explicitly excluded from service-worker handling and every API response is no-store.
+- The canonical Compose configuration builds and starts a healthy container.
+  HTTP integration created a test player, logged in as staff, completed all tasks,
+  approved a photo and submitted four concurrent redemptions: one 201, three 409.
+  Force-recreating the container retained the account, all three stamps and receipt.
+- Desktop browser through the local Vite proxy: login loaded the persisted 3/3
+  progress and receipt; player access to staff functions was refused; staff login
+  exposed review and redemption records. No management-key form exists.
+- git diff --check and one-Compose-file regression check.
+
+The ignored local .env contains random verification credentials and station codes;
+the local volume contains a clearly named compose-* smoke-test account and receipt.
+Neither belongs in an actual event deployment. CI fixture credentials are intentionally
+public and are not deployment defaults. Local Docker builds use the classic builder
+because of this machine's previously observed BuildKit credential transport issue.
+
+Not verified: real installed iOS/Android, narrow/tablet/zoom, screen readers,
+reduced-motion sessions, production HTTPS/domain, throughput/load and SSO. Existing
+motion is retained; no new animation/dependency was introduced. No per-person
+deduplication, password recovery or prize inventory is implemented. Official tasks,
+placements, privacy policy and prize terms remain unconfirmed.
+Earlier passes below are historical and do not describe the current backend.
+
+
 ## Current pass · independent Docker game PWA (2026-10-17)
 
 Extracted into `fearnot221/evergreenbloom-pwa`. Only game, install/privacy guide,

@@ -1,0 +1,22 @@
+services:
+  pwa:
+    build:
+      context: .
+      args:
+        VITE_WEBSITE_URL: ${VITE_WEBSITE_URL:-https://fearnot221.github.io/evergreenbloom/}
+    ports:
+      - "127.0.0.1:${PWA_PORT:-8080}:8080"
+    environment:
+      APP_ORIGIN: ${APP_ORIGIN:-http://localhost:8080}
+      STAFF_USERNAME: ${STAFF_USERNAME:?Set the initial staff username}
+      STAFF_PASSWORD: ${STAFF_PASSWORD:?Set a strong initial staff password}
+      STAMP_KEYS: ${STAMP_KEYS:?Set private station codes as a JSON object}
+      DATABASE_PATH: /data/game.sqlite
+    volumes:
+      - game-data:/data
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+
+volumes:
+  game-data:

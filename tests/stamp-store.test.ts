@@ -1,22 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { claimFromCode, readClaim } from '../src/game/stamp-store';
+import { readClaim } from '../src/game/stamp-store';
 
-describe('stamp claims', () => {
-  it('accepts a spot with its own key, case-insensitively', () => {
-    expect(readClaim(new URLSearchParams('spot=gate&k=gate-26'))).toEqual({
+describe('unverified QR handoff', () => {
+  it('parses a known spot and normalizes a key without pretending to verify it', () => {
+    expect(readClaim(new URLSearchParams('spot=gate&k=unverified-code'))).toEqual({
       spot: 'gate',
-      key: 'GATE-26',
+      key: 'UNVERIFIED-CODE',
     });
+    expect(readClaim(new URLSearchParams('spot=lake&k=GATE-26'))?.spot).toBe('lake');
   });
-
-  it('rejects unknown spots and mismatched keys', () => {
-    expect(readClaim(new URLSearchParams('spot=nowhere&k=GATE-26'))).toBeNull();
-    expect(readClaim(new URLSearchParams('spot=lake&k=GATE-26'))).toBeNull();
-    expect(readClaim(new URLSearchParams(''))).toBeNull();
-  });
-
-  it('finds a spot from the code printed under its QR code', () => {
-    expect(claimFromCode(' book-26 ')?.spot).toBe('library');
-    expect(claimFromCode('nope')).toBeNull();
+  it('rejects malformed handoffs and unknown spots', () => {
+    for (const query of ['spot=unknown&k=A', 'spot=lake', 'spot=lake&k=<script>', ''])
+      expect(readClaim(new URLSearchParams(query))).toBeNull();
   });
 });

@@ -59,12 +59,6 @@ const methods = [
   { id: 'photo', text: '在定點拍下指定的東西。集章成功後會出現這個地點的介紹。' },
 ] as const;
 
-const signIns = [
-  ['Portal', '校內教職員生，使用學校帳號'],
-  ['Google', '校外參與者'],
-  ['LINE', '校外參與者'],
-] as const;
-
 export default function PlayPage() {
   useDocumentTitle(display.pages.play);
   useGSAP(() => {
@@ -96,9 +90,10 @@ export default function PlayPage() {
     >
       {spot && claim && (
         <section className="claim" aria-labelledby="claim-title">
-          <h2 id="claim-title">已記下「{spot.name}」</h2>
+          <h2 id="claim-title">待驗證集章點「{spot.name}」</h2>
           <p>
-            安裝後打開 App，這個集章點會自動帶入，不用再掃一次。如果沒有出現，在集章冊輸入代碼{' '}
+            這只是待驗證的掃碼資訊；登入後由伺服器確認代碼與任務。安裝後打開
+            App，這個集章點會自動帶入。如果沒有出現，在集章冊輸入代碼{' '}
             <strong className="latin">{claim.key}</strong>。
           </p>
         </section>
@@ -167,16 +162,13 @@ export default function PlayPage() {
         <h2 className="display section-title" id="signin-title" data-ink>
           <Ink text={display.sections.signIn} />
         </h2>
-        <p>登入只在 App 裡進行，官網不需要也不提供登入。預計支援：</p>
-        <dl className="rows info-rows">
-          {signIns.map(([name, who]) => (
-            <div key={name}>
-              <dt className="latin">{name}</dt>
-              <dd>{who}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="note">登入服務尚未開放。開放前，集章紀錄只存在你的手機上。</p>
+        <p>
+          目前以帳號與密碼註冊及登入，進度保存在伺服器資料庫。可在同一帳號登入後繼續集章；每個帳號限兌獎一次。
+        </p>
+        <p className="note">
+          SSO
+          尚未串接。請妥善保存密碼，目前尚未提供自助找回密碼功能。舊版裝置上的示範集章不會轉成有效章。
+        </p>
       </section>
 
       <section id="privacy" aria-labelledby="privacy-title">
@@ -186,10 +178,16 @@ export default function PlayPage() {
         <ul className="rows">
           <li>照片只用來確認你完成了集章任務，不會用於其他用途或公開。</li>
           <li>請拍指定的物件或集章牌，避免拍到其他人的臉。</li>
-          <li>如果照片裡不小心拍到人，該照片只供集章確認，不會另作使用。</li>
-          <li>目前的版本不會上傳照片；照片留在你的手機上。</li>
+          <li>如果照片裡不小心拍到人，請重新拍攝，避免將他人影像上傳。</li>
+          <li>
+            照片需經你同意後上傳至伺服器，由已登入的工作人員審核。照片上限 3 MB，限 JPEG、PNG 或
+            WebP。
+          </li>
         </ul>
-        <p className="note">正式隱私權政策待主辦單位確認後公布。</p>
+        <p className="note">
+          通過或退回時會移除照片內容，並保留任務狀態、審核帳號與時間。未處理照片最多保留 7
+          天；到期須重新上傳。備份中的資料須依主辦單位保存政策處理。正式隱私權政策待確認後公布。
+        </p>
       </section>
     </Page>
   );
