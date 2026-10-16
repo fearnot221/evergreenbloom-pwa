@@ -1,0 +1,185 @@
+/* 集章冊 (installed app only) ------------------------------------------------------- */
+.challenge {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: var(--space-6);
+  border-top: 3px solid var(--accent);
+  background: var(--bg-2);
+}
+
+.challenge h2 {
+  font-size: var(--step-3);
+  font-weight: 800;
+}
+
+.quiz,
+.photo-task {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.quiz fieldset {
+  display: grid;
+  gap: var(--space-2);
+  border: 0;
+  padding: 0;
+}
+
+.quiz legend {
+  margin-bottom: var(--space-2);
+  font-weight: 800;
+}
+
+.quiz-option,
+.consent {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: 44px;
+}
+
+.quiz-option input,
+.consent input {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  accent-color: var(--accent);
+}
+
+.quiz-error {
+  min-height: 1.5em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.button.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.photo-task .button:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.code-entry {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 28rem;
+}
+
+.code-entry label {
+  font-weight: 800;
+}
+
+.code-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.code-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  text-transform: uppercase;
+}
+
+.stamp-book {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.stamp {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: center;
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.stamp h2 {
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+.stamp-seal {
+  display: grid;
+  place-items: center;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  border: 2px dashed var(--line-strong);
+  border-radius: 50%;
+  font-size: var(--step-1);
+  color: var(--accent);
+}
+
+.stamp.is-done .stamp-seal {
+  border: 3px double var(--accent);
+  rotate: -8deg;
+}
+
+.stamp .note svg {
+  vertical-align: -0.1em;
+  color: var(--accent);
+}
+
+/* Stamp reveal dialog. */
+.stamp-reveal {
+  inline-size: min(30rem, calc(100vw - 2 * var(--gutter)));
+  margin: auto;
+  padding: var(--space-7) var(--space-6) var(--space-6);
+  border: 0;
+  background: var(--bg);
+  color: var(--fg);
+  box-shadow: 0 0 0 1px var(--line);
+  overflow: clip;
+}
+
+.stamp-reveal::backdrop {
+  background: oklch(13% 0.022 170 / 0.6);
+}
+
+.stamp-reveal[open] {
+  display: grid;
+  gap: var(--space-6);
+  justify-items: center;
+  text-align: center;
+}
+
+.reveal-seal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 7rem;
+  block-size: 7rem;
+  border: 4px double var(--accent);
+  border-radius: 50%;
+  rotate: -8deg;
+  font-size: var(--step-3);
+  color: var(--accent);
+}
+
+.reveal-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+}
+
+.reveal-kicker {
+  color: var(--accent);
+}
+
+.reveal-copy h2 {
+  font-size: var(--step-3);
+  font-weight: 800;
+}

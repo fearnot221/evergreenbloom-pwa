@@ -1,0 +1,132 @@
+[
+  {
+    "id": "lake-plaza",
+    "name": "中大湖・區域參考",
+    "aliases": [
+      "中大湖"
+    ],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "landmark",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.19133410769231,
+      "latitude": 24.97089493846154
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "vertex-mean-label-anchor",
+    "relatedFeatureId": "relation/7211880",
+    "relatedBuildingId": null,
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / relation/7211880"
+  },
+  {
+    "id": "ncu-library",
+    "name": "總圖書館",
+    "aliases": [
+      "總圖書館"
+    ],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "building",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.19428754999998,
+      "latitude": 24.96825845
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "vertex-mean-label-anchor",
+    "relatedFeatureId": "way/202806573",
+    "relatedBuildingId": "way/202806573",
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / way/202806573"
+  },
+  {
+    "id": "ncu-admin",
+    "name": "行政大樓",
+    "aliases": [
+      "行政大樓"
+    ],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "building",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.19505689,
+      "latitude": 24.968280134999997
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "vertex-mean-label-anchor",
+    "relatedFeatureId": "way/270806669",
+    "relatedBuildingId": "way/270806669",
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / way/270806669"
+  },
+  {
+    "id": "ncu-engineering-1",
+    "name": "工程一館",
+    "aliases": [
+      "工程一館"
+    ],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "building",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.19263592000001,
+      "latitude": 24.96744723
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "vertex-mean-label-anchor",
+    "relatedFeatureId": "way/268841451",
+    "relatedBuildingId": "way/268841451",
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / way/268841451"
+  },
+  {
+    "id": "ncu-track",
+    "name": "操場",
+    "aliases": [
+      "操場"
+    ],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "landmark",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.18997111499998,
+      "latitude": 24.968416414999997
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "vertex-mean-label-anchor",
+    "relatedFeatureId": "relation/5951533",
+    "relatedBuildingId": null,
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / relation/5951533"
+  },
+  {
+    "id": "ncu-gate",
+    "name": "校門管制點（OSM）",
+    "aliases": [],
+    "description": "位置依 OSM 來源幾何取得，僅作區域標示，不是已驗證入口、活動場地或導航終點。",
+    "poiType": "entrance",
+    "status": "historical",
+    "geographic": {
+      "longitude": 121.1910866,
+      "latitude": 24.9657433
+    },
+    "geographicStatus": "community-maintained",
+    "anchorMethod": "source-point",
+    "relatedFeatureId": "node/346111198",
+    "relatedBuildingId": null,
+    "entranceIds": [],
+    "navigationNodeIds": [],
+    "accessibility": "unknown",
+    "source": "© OpenStreetMap contributors / node/346111198"
+  }
+]

@@ -1,0 +1,683 @@
+/* Shared components: plates, page head, cards, disclosures, chips, PWA panel, petals. */
+
+.motif {
+  overflow: visible;
+}
+
+/* Campus plate -----------------------------------------------------------------------
+   The real campus framed like a photograph: the figure clips, .plate-inner is the
+   oversized layer the motion system scales. */
+.plate {
+  position: relative;
+  margin: 0;
+  overflow: clip;
+  aspect-ratio: 16 / 10;
+  background: var(--plate-paper);
+}
+
+.plate-inner {
+  position: absolute;
+  inset: -6%;
+  display: grid;
+  place-items: center;
+}
+
+.campus-sketch {
+  aspect-ratio: 1520 / 940;
+}
+
+.plate-campus .campus-sketch {
+  width: 92%;
+}
+
+.campus-sketch svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.sketch-water {
+  fill: var(--sakura);
+}
+
+.sketch-road {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+
+.sketch-building {
+  fill: var(--bg-2);
+  stroke: var(--fg);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .sketch-building,
+    .sketch-road {
+      stroke-dasharray: 1;
+      animation: sketch-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 50%;
+    }
+  }
+}
+
+@keyframes sketch-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 空心字 titles (Ink.tsx): an outline with a fill layer on top. -------------------- */
+.ink {
+  display: inline-grid;
+}
+
+.ink > * {
+  grid-area: 1 / 1;
+}
+
+.ink-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+}
+
+.ink-fill {
+  color: currentColor;
+}
+
+/* 上下裂開 (SplitSwap.tsx): each word is two clipped halves stacked on one cell. */
+.swap {
+  display: inline-grid;
+}
+
+.swap-word,
+.swap-word > * {
+  grid-area: 1 / 1;
+}
+
+.swap-word {
+  display: grid;
+}
+
+.swap-top {
+  clip-path: inset(0 0 50% 0);
+}
+
+.swap-bottom {
+  clip-path: inset(50% 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swap-word + .swap-word {
+    display: none;
+  }
+}
+
+/* Inner-page head: a sakura field with a poster-scale title and a cropped bloom. */
+.page-head {
+  position: relative;
+  overflow: clip;
+  padding: calc(var(--header-h) + var(--space-9)) 0 var(--space-9);
+  background: var(--sakura);
+}
+
+.page-head-grid {
+  /* Above the flowing columns. */
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-6);
+}
+
+.page-title {
+  font-size: var(--step-4);
+  line-height: 1.1;
+  color: var(--fg);
+}
+
+.page-title.is-plain {
+  font-size: var(--step-3);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.page-lede {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  line-height: 1.8;
+}
+
+/* 直書逆走: three outlined columns of the title, flowing up and down in turn. */
+.head-flow {
+  position: absolute;
+  inset: 0 var(--gutter) 0 auto;
+  display: flex;
+  gap: 0.35em;
+  overflow: clip;
+  font-size: clamp(3rem, 1.5rem + 5vw, 7rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+  pointer-events: none;
+}
+
+.head-flow-col {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+}
+
+.head-flow-col:nth-child(2) {
+  -webkit-text-stroke-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .head-flow-col {
+    animation: flow-up 60s linear infinite;
+  }
+
+  .head-flow-col:nth-child(even) {
+    animation-name: flow-down;
+    animation-duration: 75s;
+  }
+}
+
+@keyframes flow-up {
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes flow-down {
+  from {
+    transform: translateY(-50%);
+  }
+}
+
+/* Wide screens: title and lede share the left 7 columns; the flow owns the right. */
+@media (min-width: 900px) {
+  /* Room for the flowing columns; a plain (dynamic) title has none and stays compact. */
+  .page-head:has(.head-flow) {
+    min-height: 34rem;
+    display: grid;
+    align-items: end;
+  }
+
+  .page-head-grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .page-head-grid > * {
+    grid-column: 1;
+  }
+}
+
+/* Phones: no room beside the text, so the flow stays a faint backdrop. */
+@media (max-width: 899px) {
+  .head-flow {
+    opacity: 0.18;
+  }
+}
+
+.page-body {
+  display: grid;
+  /* One viewport-bound track: full-bleed bands overflow it instead of widening it. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  padding-top: var(--space-8);
+}
+
+@media (min-width: 900px) {
+  .page-body {
+    gap: var(--space-10);
+    padding-top: var(--space-9);
+  }
+}
+
+.page-body > section {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+.section-title {
+  font-size: var(--step-3);
+}
+
+.section-lede {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  line-height: 1.8;
+}
+
+.sub-title {
+  margin-top: var(--space-6);
+  font-size: var(--step-2);
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+/* Event entry: an editorial block with a top rule, no box. ---------------------------- */
+.event-card {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  height: 100%;
+  padding-top: var(--space-5);
+  border-top: 2px solid var(--fg);
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--fg-soft);
+  font-size: var(--step--1);
+}
+
+.event-tag {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.event-title {
+  font-size: var(--step-2);
+  font-weight: 800;
+  transition: color var(--dur-quick) ease;
+}
+
+.event-title a {
+  text-decoration: none;
+}
+
+/* The title link covers the entry; the map link stays on top. */
+.event-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.event-card .text-link {
+  position: relative;
+  z-index: 1;
+  justify-self: start;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .event-card:has(.event-title a:hover) .event-title {
+    color: var(--accent);
+  }
+}
+
+.event-card:has(.event-title a:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 6px;
+}
+
+.event-title a:focus-visible {
+  outline: none;
+}
+
+/* Announcement posters ------------------------------------------------------------ */
+.announce-cards {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.announce-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-8);
+  min-height: 19rem;
+  padding: var(--space-6);
+  overflow: clip;
+  background: var(--sakura);
+  text-decoration: none;
+}
+
+.announce-card-title {
+  font-size: var(--step-3);
+  line-height: 1.1;
+}
+
+.announce-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 700;
+}
+
+.announce-card-art {
+  position: absolute;
+  z-index: -1;
+  right: -3rem;
+  bottom: -3rem;
+  width: 11rem;
+  transition: transform 900ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .announce-card:hover .announce-card-art {
+    transform: rotate(40deg) scale(1.15);
+  }
+}
+
+/* Rows ------------------------------------------------------------------------------ */
+.rows {
+  border-top: 1px solid var(--line-strong);
+}
+
+.rows > * {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Disclosure ------------------------------------------------------------------------- */
+.disclosure {
+  border-bottom: 1px solid var(--line);
+}
+
+.disclosure summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 56px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure summary svg {
+  flex: none;
+  color: var(--accent);
+  transition: transform var(--dur-quick) var(--ease-out);
+}
+
+.disclosure[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.disclosure-body {
+  display: grid;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  max-width: var(--measure);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .disclosure::details-content,
+  .timeline-item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 500ms var(--ease-out),
+      content-visibility 500ms allow-discrete;
+  }
+
+  .disclosure[open]::details-content,
+  .timeline-item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* Filter chips ------------------------------------------------------------------------ */
+.filter-group {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.filter-group legend {
+  margin-bottom: var(--space-2);
+  font-weight: 700;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  position: relative;
+}
+
+.chip input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-quick) ease,
+    border-color var(--dur-quick) ease,
+    color var(--dur-quick) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.chip input:checked + span {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.chip input:active + span {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chip input:not(:checked):hover + span {
+    background: var(--sakura);
+  }
+}
+
+/* PWA panel (footer) ---------------------------------------------------------------- */
+.pwa-panel {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pwa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pwa-status:empty {
+  display: none;
+}
+
+.pwa-status {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Petal burst (PetalBurst.tsx) ------------------------------------------------------ */
+.petal-burst {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.burst-petal {
+  grid-area: 1 / 1;
+  width: clamp(18px, 2.4vw, 32px);
+  visibility: hidden;
+}
+
+/* Petal fall (motion/PetalFall.tsx): behind the content, never over the header. */
+.petal-fall {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: clip;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.fall-petal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(16px, 1.6vw, 24px);
+  opacity: 0.9;
+}
+
+/* A notice belongs to the content right after it. */
+.page-body > .notice {
+  margin-bottom: calc(var(--space-5) - var(--space-8));
+}
+
+@media (min-width: 900px) {
+  .page-body > .notice {
+    margin-bottom: calc(var(--space-6) - var(--space-10));
+  }
+}
+
+/* Bands (Bands.tsx): 跑馬燈 / 斜線帶 / 封鎖膠帶. ------------------------------------- */
+.bands {
+  display: grid;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.band-row {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.band-row.is-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .band-row {
+    animation: band-run var(--seconds) linear infinite;
+    animation-direction: var(--direction);
+  }
+}
+
+@keyframes band-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.bands.is-stack {
+  gap: var(--space-2);
+  margin-inline: calc(-1 * var(--gutter));
+  font-size: clamp(2.2rem, 1rem + 5vw, 6rem);
+}
+
+.bands.is-stack .band-row:nth-child(2) {
+  font-size: 0.55em;
+  color: var(--fg-soft);
+}
+
+/* Two bands tilted against each other: an X across the section. */
+.bands.is-cross,
+.bands.is-tape {
+  position: absolute;
+  inset: 0;
+  align-content: center;
+  font-size: clamp(1.6rem, 0.8rem + 3vw, 3.4rem);
+}
+
+.bands.is-cross .band-row,
+.bands.is-tape .band-row {
+  grid-area: 1 / 1;
+  margin-left: -10vw;
+  /* Rows are thousands of pixels wide: tilt them around the viewport's middle (the
+     row starts at -10vw), or the visible part swings out of the strip. */
+  transform-origin: 60vw 50%;
+}
+
+.bands.is-cross .band-row:first-child,
+.bands.is-tape .band-row:first-child {
+  rotate: -7deg;
+}
+
+.bands.is-cross .band-row:last-child,
+.bands.is-tape .band-row:last-child {
+  rotate: 6deg;
+}
+
+.bands.is-cross .band-row {
+  color: var(--sakura-deep);
+}
+
+.bands.is-tape .band-row {
+  padding-block: 0.15em;
+  background: var(--fg);
+  color: var(--sakura);
+}
+
+.bands.is-tape .band-row:last-child {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Ribbon (Ribbon.tsx): 緞帶. */
+.ribbon {
+  display: block;
+  width: 100%;
+  height: clamp(9rem, 5rem + 12vw, 17rem);
+  overflow: visible;
+}
+
+.ribbon-line {
+  fill: none;
+  stroke: var(--sakura-deep);
+  stroke-width: 54;
+  stroke-linecap: round;
+}
+
+.ribbon-text {
+  font-size: 34px;
+  fill: var(--fg);
+  dominant-baseline: middle;
+}

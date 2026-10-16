@@ -1,0 +1,140 @@
+/*
+ * 松櫻祭 design tokens · v6 「櫻吹雪 · 一陣風」 (a gust of sakura), adopted 2026-10-17
+ * Custom theme · paper: light blush · display: calligraphic kai (LXGW WenKai TC) at
+ * poster scale · primary field: sakura pink · ink: pine green (松) · one hot rose for
+ * small emphasis. Shape rule: everything is square-cornered; the only round things
+ * are the petals and the 松櫻 emblem. No gradients. One theme, automatic night (夜櫻).
+ */
+@font-face {
+  font-family: "Songying Display";
+  src: url("/fonts/songying-display.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+
+  --font-display: "Songying Display", "LXGW WenKai TC", "Kaiti TC", "BiauKai", serif;
+  --font-body:
+    "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-latin: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale: body steps, then editorial display steps that track the viewport. */
+  --step--1: 0.8125rem;
+  --step-0: 1.0625rem;
+  --step-1: clamp(1.15rem, 1.05rem + 0.4vw, 1.375rem);
+  --step-2: clamp(1.45rem, 1.2rem + 1vw, 2rem);
+  --step-3: clamp(2rem, 1.3rem + 2.8vw, 3.6rem);
+  --step-4: clamp(2.8rem, 1.4rem + 5.6vw, 6.4rem);
+  --step-5: clamp(4.6rem, 1rem + 15vw, 17rem);
+
+  --leading-display: 1.08;
+  --leading-body: 1.85;
+  --tracking-latin: 0.14em;
+
+  /* Space: 4pt scale; sections breathe at --space-10 and above. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 9rem;
+  --space-11: 13rem;
+  --gutter: clamp(1.25rem, 0.4rem + 3.6vw, 4rem);
+  --content: 90rem;
+  --measure: 32em;
+  --header-h: 5rem;
+
+  /* Motion: GSAP uses power2/power3.out; CSS mirrors them. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 140ms;
+  --dur-quick: 220ms;
+  --dur-panel: 600ms;
+
+  --z-header: 30;
+  --z-tabbar: 30;
+  --z-menu: 50;
+  --z-top: 60;
+
+  /* Colour roles (day). */
+  --bg: oklch(96.6% 0.02 355);
+  --bg-2: oklch(92.5% 0.04 355);
+  --sakura: oklch(85.5% 0.075 355);
+  --sakura-deep: oklch(76% 0.11 357);
+  --fg: oklch(24% 0.045 165);
+  --fg-soft: oklch(42% 0.035 170);
+  --line: oklch(24% 0.045 165 / 0.16);
+  --line-strong: oklch(24% 0.045 165 / 0.55);
+  --accent: oklch(53% 0.2 6);
+  --accent-soft: oklch(76% 0.11 357);
+  --accent-wash: oklch(92.5% 0.04 355);
+  --on-accent: oklch(98% 0.01 355);
+  --pine: oklch(34% 0.06 165);
+  --pine-text: oklch(36% 0.07 165);
+  --on-pine: oklch(93% 0.035 355);
+  --focus: oklch(40% 0.18 6);
+  --glass: oklch(96.6% 0.02 355 / 0.94);
+  --scrim: oklch(24% 0.045 165 / 0.5);
+
+  --motif-petal: oklch(96% 0.025 355);
+  --motif-petal-deep: oklch(78% 0.11 357);
+  --motif-stamen: oklch(80% 0.13 85);
+  --motif-pine: oklch(52% 0.06 45);
+  --motif-pine-deep: oklch(38% 0.05 40);
+  --motif-pine-light: oklch(74% 0.05 55);
+  --motif-sparkle: oklch(88% 0.07 357);
+  --motif-sparkle-core: oklch(99% 0.01 357);
+
+  --plate-paper: oklch(98% 0.012 355);
+
+  /* 櫻吹雪 canvas petals (far to near) and the flat blossom mark. */
+  --storm-1: oklch(88% 0.06 356);
+  --storm-2: oklch(78% 0.11 357);
+  --storm-3: oklch(68% 0.15 2);
+  --blossom-petal: oklch(80% 0.1 357);
+  --blossom-centre: oklch(24% 0.045 165);
+}
+
+/* 夜櫻 · night: sakura at dusk. The page stays pink (deep plum-rose), type turns pale. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: oklch(23% 0.045 352);
+    --bg-2: oklch(28% 0.055 352);
+    --sakura: oklch(34% 0.075 354);
+    --sakura-deep: oklch(70% 0.12 357);
+    --fg: oklch(95% 0.025 355);
+    --fg-soft: oklch(83% 0.04 355);
+    --line: oklch(95% 0.025 355 / 0.16);
+    --line-strong: oklch(95% 0.025 355 / 0.5);
+    --accent: oklch(82% 0.11 357);
+    --accent-soft: oklch(68% 0.12 357);
+    --accent-wash: oklch(30% 0.06 354);
+    --on-accent: oklch(22% 0.045 352);
+    --pine: oklch(26% 0.04 165);
+    --pine-text: oklch(80% 0.07 160);
+    --on-pine: oklch(93% 0.035 355);
+    --focus: oklch(90% 0.09 357);
+    --glass: oklch(23% 0.045 352 / 0.94);
+    --scrim: oklch(12% 0.03 352 / 0.7);
+
+    --motif-petal: oklch(92% 0.04 357);
+    --motif-petal-deep: oklch(74% 0.12 357);
+    --motif-sparkle: oklch(84% 0.08 357);
+    --motif-sparkle-core: oklch(97% 0.02 357);
+
+    --plate-paper: oklch(28% 0.05 352);
+
+    --storm-1: oklch(52% 0.09 356);
+    --storm-2: oklch(70% 0.11 357);
+    --storm-3: oklch(86% 0.07 357);
+    --blossom-petal: oklch(78% 0.11 357);
+    --blossom-centre: oklch(95% 0.025 355);
+  }
+}

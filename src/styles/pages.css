@@ -1,0 +1,826 @@
+/* Inner pages. Shared layout lives in components.css (Page, cards, rows). */
+
+.back-link {
+  justify-self: start;
+}
+
+/* About ------------------------------------------------------------------------------ */
+/* 松與櫻: no boxes. Two large textured glyphs, the second set lower, a rule between. */
+.meanings {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.meaning {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  max-width: 34rem;
+}
+
+/* The glyph is the picture: pine cones (松果) through 松, petals through 櫻. */
+.meaning-figure {
+  font-size: clamp(9rem, 4rem + 14vw, 18rem);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.meaning.is-pine .meaning-figure {
+  background-color: var(--pine);
+  background-image: url("/art/cones.svg");
+  background-size: 220px;
+}
+
+.meaning.is-sakura .meaning-figure {
+  background-color: var(--sakura);
+  background-image: url("/art/petals.svg");
+  background-size: 260px;
+}
+
+.meaning h4 {
+  font-size: var(--step-2);
+}
+
+@media (min-width: 760px) {
+  .meanings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-9);
+  }
+
+  .meaning.is-sakura {
+    margin-top: var(--space-10);
+    padding-left: var(--space-8);
+    border-left: 1px solid var(--line-strong);
+  }
+}
+
+.places {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.place {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding-top: var(--space-4);
+  border-top: 2px solid var(--fg);
+}
+
+.place-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.place-name .display {
+  font-size: var(--step-2);
+}
+
+.place h4 {
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+@media (min-width: 900px) {
+  .places {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .places .place:nth-child(2) {
+    margin-top: var(--space-7);
+  }
+}
+
+.sustain {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-7) var(--space-6);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.sustain h3 {
+  font-size: var(--step-3);
+}
+
+.sustain p {
+  max-width: var(--measure);
+}
+
+.sustain .note {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.purposes {
+  display: grid;
+  counter-reset: purpose;
+  border-top: 1px solid var(--line);
+}
+
+.purposes li {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.purposes h3 {
+  font-size: var(--step-2);
+}
+
+@media (min-width: 760px) {
+  .purposes li {
+    grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-6);
+    align-items: baseline;
+  }
+}
+
+/* The first edition's facts cross the page in a strip, the record beneath. */
+.history-stage {
+  display: grid;
+}
+
+.history-bands {
+  position: relative;
+  height: clamp(8rem, 3rem + 12vw, 14rem);
+  margin-inline: calc(-1 * var(--gutter));
+}
+
+.edition-card {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+}
+
+.edition-card > div {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--measure);
+}
+
+.edition-card h3 {
+  font-size: var(--step-3);
+}
+
+.edition-year {
+  font-size: clamp(4rem, 2rem + 8vw, 8rem);
+  font-weight: 800;
+  line-height: 0.9;
+  color: var(--accent-soft);
+}
+
+@media (min-width: 900px) {
+  .edition-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-8);
+    padding: var(--space-8);
+  }
+}
+
+/* 當年介紹 timeline: each milestone expands in place (展開畫面). */
+.timeline {
+  position: relative;
+  display: grid;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  left: 0.55rem;
+  width: 2px;
+  background: var(--line);
+}
+
+.timeline-item summary {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr) auto;
+  gap: var(--space-5);
+  align-items: center;
+  min-height: 72px;
+  padding-block: var(--space-3);
+  cursor: pointer;
+  list-style: none;
+}
+
+.timeline-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.timeline-dot {
+  position: relative;
+  width: 1.1rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.is-done .timeline-dot {
+  background: var(--accent);
+}
+
+.timeline-head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.timeline-head .display {
+  font-size: var(--step-2);
+}
+
+.timeline-item summary svg {
+  color: var(--accent);
+  transition: transform var(--dur-quick) var(--ease-out);
+}
+
+.timeline-item[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.timeline-body {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  margin: 0 0 var(--space-4) calc(1.1rem + var(--space-5));
+  padding: var(--space-5) var(--space-6);
+  background: var(--bg-2);
+}
+
+/* Program -------------------------------------------------------------------------- */
+.filters {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+}
+
+.filter-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  font-weight: 700;
+}
+
+@media (min-width: 1100px) {
+  .filters {
+    grid-template-columns: auto auto 1fr;
+    align-items: end;
+  }
+
+  .filter-summary {
+    justify-content: flex-end;
+  }
+}
+
+.empty {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-7) 0;
+}
+
+.day-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-size: var(--step-2);
+}
+
+.slot {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-2) var(--space-5);
+}
+
+.slot-time {
+  display: grid;
+  align-content: start;
+  line-height: 1.1;
+}
+
+.slot-time time {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.slot-time span {
+  color: var(--fg-soft);
+}
+
+.slot-time span::before {
+  content: "至 ";
+}
+
+.slot-body {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.slot-body h3 {
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+.slot-body h3 a {
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .slot-body h3 a:hover {
+    color: var(--accent);
+  }
+}
+
+.slot-place {
+  color: var(--fg-soft);
+}
+
+.slot .disclosure {
+  border-bottom: 0;
+}
+
+.slot > .text-link {
+  grid-column: 2;
+  justify-self: start;
+}
+
+/* Events ------------------------------------------------------------------------------ */
+.ticket-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+/* Detail ----------------------------------------------------------------------------- */
+.detail .page-body {
+  gap: var(--space-6);
+}
+
+.detail-grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.detail-main {
+  display: grid;
+  /* The display face rises above its line box: titles need more room than body. */
+  gap: var(--space-6);
+  align-content: start;
+  max-width: var(--measure);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  padding: var(--space-6);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+}
+
+.facts .rows > div {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+}
+
+@media (min-width: 1100px) {
+  .detail-grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+/* News -------------------------------------------------------------------------------- */
+.news-item {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.news-item h3 {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+.news-item h3 a {
+  text-decoration: none;
+}
+
+.news-detail-grid {
+  display: grid;
+  gap: var(--space-7);
+  align-items: start;
+}
+
+.news-poster {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-5);
+  aspect-ratio: 3 / 4;
+  max-width: 26rem;
+  overflow: hidden;
+  container-type: inline-size;
+  text-align: center;
+  background: var(--accent-wash);
+}
+
+.news-poster-title {
+  font-size: 24cqi;
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.news-poster-byline {
+  font-size: 4.4cqi;
+  color: var(--fg-soft);
+}
+
+.news-poster-sakura {
+  /* Large blossoms stay in pinks: an ink centre reads as a blot at this size. */
+  --blossom-petal: var(--sakura-deep);
+  --blossom-centre: var(--accent);
+  position: absolute;
+  z-index: -1;
+  width: 42%;
+  right: -10%;
+  top: 4%;
+  rotate: 16deg;
+}
+
+.news-body {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--measure);
+  font-size: var(--step-1);
+}
+
+.news-body .note {
+  font-size: var(--step--1);
+}
+
+@media (min-width: 1100px) {
+  .news-detail-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  }
+}
+
+/* Team -------------------------------------------------------------------------------- */
+.roles {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.role {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding: var(--space-6);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+}
+
+.role h2 {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+/* A rose panel for one call to action (join, shops, donate). */
+.join {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: var(--space-7) var(--space-6);
+  background: var(--accent-wash);
+}
+
+.join h2 {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+.join h2 svg {
+  display: inline;
+  vertical-align: -0.15em;
+  color: var(--accent);
+}
+
+/* Visit ------------------------------------------------------------------------------- */
+.visit-pair {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.visit-pair section {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  padding: var(--space-6);
+  background: var(--bg);
+  border-top: 2px solid var(--fg);
+}
+
+.visit-pair h2 {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+@media (min-width: 760px) {
+  .visit-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.info-rows > div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.info-rows dt {
+  font-weight: 800;
+}
+
+@media (min-width: 640px) {
+  .info-rows > div {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+.faq {
+  border-top: 1px solid var(--line);
+}
+
+.faq summary {
+  font-size: var(--step-1);
+}
+
+/* Play: install guide --------------------------------------------------------------- */
+.claim {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  background: var(--accent-wash);
+}
+
+.claim h2 {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+.install-steps li {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.install-steps h3 {
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+.install-steps svg {
+  display: inline;
+  vertical-align: -0.2em;
+  margin-inline: 0.2em;
+  color: var(--accent);
+}
+
+/* Not found / error ----------------------------------------------------------------- */
+.not-found .actions,
+.route-error .actions {
+  margin-top: var(--space-2);
+}
+
+/* Team: the recruitment tape runs edge to edge above the call to join. */
+.tape-stage {
+  position: relative;
+  height: clamp(9rem, 4rem + 14vw, 16rem);
+  margin-inline: calc(-1 * var(--gutter));
+  margin-bottom: calc(var(--space-5) - var(--space-8));
+}
+
+@media (min-width: 900px) {
+  .tape-stage {
+    margin-bottom: calc(var(--space-6) - var(--space-10));
+  }
+}
+
+/* Partners: the list is a statement beside its title. */
+
+.partner-copy {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 34rem;
+}
+
+.partner-statement {
+  font-size: var(--step-2);
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .partner-list {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+}
+
+/* 合作單位 · 雙色反轉: ink on sakura and sakura on ink, split by a travelling diagonal. */
+.partners-call {
+  /* Six characters plus padding stay on one line down to 320px. */
+  font-size: min(clamp(3.4rem, 1rem + 10vw, 11rem), 13vw);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.invert {
+  --split: 55%;
+  display: inline-grid;
+  max-width: 100%;
+}
+
+.invert > * {
+  grid-area: 1 / 1;
+  padding: 0.12em 0.25em 0.18em;
+}
+
+.invert-base {
+  background: var(--sakura);
+  color: var(--fg);
+}
+
+.invert-top {
+  background: var(--fg);
+  color: var(--sakura);
+  clip-path: polygon(0 0, var(--split) 0, calc(var(--split) - 0.6em) 100%, 0 100%);
+}
+
+/* 互動平台 · 印章: three seals in a row, each with what it stands for. */
+.seal-methods {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.seal-methods li {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  align-content: start;
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: clamp(5rem, 3.5rem + 4vw, 7.5rem);
+  aspect-ratio: 1;
+  border: 4px double var(--accent);
+  border-radius: 50%;
+  rotate: -8deg;
+  font-size: clamp(2.6rem, 1.8rem + 2.4vw, 4rem);
+  line-height: 1;
+  color: var(--accent);
+}
+
+.seal-methods li:nth-child(2) .seal {
+  rotate: 6deg;
+}
+
+.seal-methods h3 {
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+
+@media (min-width: 900px) {
+  .seal-methods {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .seal-methods li:nth-child(2) {
+    margin-top: var(--space-8);
+  }
+}
+
+/* 捐款 · 液體填滿: the outlined word fills with a sakura liquid whose surface keeps
+   moving; GSAP raises the level (background-position-y) when it arrives. */
+.liquid {
+  font-size: clamp(9rem, 4rem + 18vw, 22rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--fg);
+  background: url("/art/liquid.svg") repeat-x 0 62% / 400px 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .liquid {
+    animation: liquid-surface 6s linear infinite;
+  }
+}
+
+@keyframes liquid-surface {
+  to {
+    background-position-x: -400px;
+  }
+}
+
+/* 最新消息 · 標題切換: a ticker line, one headline at a time. */
+.ticker {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-5);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--line-strong);
+}
+
+.ticker-label {
+  padding: var(--space-1) var(--space-3);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 800;
+}
+
+.ticker-lines {
+  display: grid;
+  overflow: clip;
+}
+
+.ticker-item {
+  grid-area: 1 / 1;
+  min-width: 0;
+  font-size: var(--step-1);
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ticker-item a {
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-item + .ticker-item {
+    display: none;
+  }
+}
+
+/* 來訪須知 · 螢光筆: the cautions carry a sakura highlighter band. */
+.hl {
+  background: linear-gradient(var(--sakura), var(--sakura)) no-repeat 0 88% / 100% 0.45em;
+  color: inherit;
+  font-weight: 700;
+}
+
+/* 404 · 殘影: three soft sakura echoes trail behind the question and drift. */
+.echo {
+  display: grid;
+  font-size: clamp(4rem, 2rem + 9vw, 11rem);
+  line-height: 1;
+}
+
+.echo span {
+  grid-area: 1 / 1;
+  color: var(--accent-soft);
+  opacity: calc(0.55 - var(--layer) * 0.15);
+  translate: calc(var(--layer) * 0.07em) calc(var(--layer) * -0.04em);
+}
+
+.echo span:first-child {
+  z-index: 1;
+  color: var(--fg);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .echo span:not(:first-child) {
+    animation: echo-drift 4.5s ease-in-out infinite alternate;
+    animation-delay: calc(var(--layer) * -0.5s);
+  }
+}
+
+@keyframes echo-drift {
+  to {
+    translate: calc(var(--layer) * 0.12em) calc(var(--layer) * 0.05em);
+  }
+}

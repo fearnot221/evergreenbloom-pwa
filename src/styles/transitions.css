@@ -1,0 +1,41 @@
+/* Pending navigation: a thin rose line under the header, shown after a short delay
+   so fast (cached) navigations never flash it. */
+.nav-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-top);
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+.nav-progress[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav-progress {
+    animation:
+      progress-show 1ms linear 150ms both,
+      progress-grow 1.6s var(--ease-out) 150ms both;
+  }
+}
+
+@keyframes progress-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes progress-grow {
+  from {
+    transform: scaleX(0.05);
+  }
+  to {
+    transform: scaleX(0.85);
+  }
+}
