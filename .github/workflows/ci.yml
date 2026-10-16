@@ -21,7 +21,7 @@ jobs:
       - run: npm run build
       - run: docker build -t songying-pwa:test .
       - run: docker run -d --name songying-pwa -p 8080:80 songying-pwa:test
-      - run: curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:8080/healthz
+      - run: curl --fail --retry 10 --retry-all-errors --retry-delay 1 --max-time 5 http://localhost:8080/healthz
       - run: curl --fail http://localhost:8080/stamp/lake?k=LAKE-26
       - run: docker rm -f songying-pwa
         if: always()
