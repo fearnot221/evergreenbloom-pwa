@@ -42,6 +42,8 @@ async function saveCore() {
   return { ready: true, savedAt };
 }
 self.addEventListener('message', (event) => {
+  // Only the visitor's 「立即更新」 sends this; install already re-saved any offline copy.
+  if (event.data?.type === 'ACTIVATE') return void self.skipWaiting();
   if (!event.ports[0]) return;
   event.waitUntil(
     (async () => {

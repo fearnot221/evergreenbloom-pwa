@@ -68,7 +68,9 @@ Language availability remains explicit: Traditional Chinese content, with an
 English unavailability notice, rather than a silently mixed English page.
 
 Saved shell HTML and immutable code/data stay together. New workers wait for old
-clients to close; there is no forced reload or `skipWaiting`. On activation only
+clients to close; there is no forced reload. Returning to a visible app checks for a
+new worker; 「立即更新」 (user-initiated only) sends `ACTIVATE` → `skipWaiting`, then
+reloads on `controllerchange` (2026-10-19). A header pill announces offline state. On activation only
 this application's obsolete versioned caches are removed. The new version needs
 a new successful core save. Full 3D offline packages, real-time updates, geolocation
 and navigation remain deferred. First-ever offline visits and evicted caches

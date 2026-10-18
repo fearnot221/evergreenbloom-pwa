@@ -88,11 +88,18 @@ export function PwaPanel() {
 
   useEffect(() => {
     let alive = true;
+    let stopChecking = () => {};
     if (import.meta.env.PROD && 'serviceWorker' in navigator) {
       registration()
         .then(async (reg) => {
           if (!alive) return;
-          setUpdate(!!reg.waiting);
+          setUpdate(!!reg.waiting && !!navigator.serviceWorker.controller);
+          // An installed app can stay open all festival; look for a new version on return.
+          const check = () => {
+            if (document.visibilityState === 'visible') reg.update().catch(() => {});
+          };
+          document.addEventListener('visibilitychange', check);
+          stopChecking = () => document.removeEventListener('visibilitychange', check);
           reg.addEventListener('updatefound', () => {
             reg.installing?.addEventListener('statechange', () => {
               if (alive && reg.waiting && navigator.serviceWorker.controller) setUpdate(true);
@@ -109,8 +116,18 @@ export function PwaPanel() {
     }
     return () => {
       alive = false;
+      stopChecking();
     };
   }, []);
+
+  const applyUpdate = async () => {
+    const waiting = (await registration()).waiting;
+    if (!waiting) return location.reload();
+    navigator.serviceWorker.addEventListener('controllerchange', () => location.reload(), {
+      once: true,
+    });
+    waiting.postMessage({ type: 'ACTIVATE' });
+  };
 
   const save = async () => {
     if (!import.meta.env.PROD) {
@@ -164,7 +181,12 @@ export function PwaPanel() {
         {!online ? '目前離線，無法儲存新版本。' : status}
       </p>
       {update && (
-        <p className="small-note">有新版本可用。關閉本站所有分頁後重新開啟，再儲存新版內容。</p>
+        <p className="pwa-actions" role="status">
+          <span>有新版本可用。</span>
+          <button type="button" className="button button-quiet" onClick={applyUpdate}>
+            立即更新
+          </button>
+        </p>
       )}
       <p className="small-note">
         內容版本 {snapshot.revision}。儲存可能被瀏覽器清除；離線內容不保證為最新公告。 iOS 可在

@@ -1,12 +1,14 @@
 import { Link, NavLink, Outlet, ScrollRestoration } from 'react-router-dom';
+import { WifiSlashIcon } from '../components/icons';
 import { Blossom } from '../components/motifs';
 import { websiteHref } from '../data/deployment';
 import { poster } from '../data/poster-copy';
-import { PwaPanel } from '../pwa/PwaPanel';
+import { PwaPanel, useOnline } from '../pwa/PwaPanel';
 import { useRouteFocus } from './use-route-focus';
 
 export default function App() {
   useRouteFocus();
+  const online = useOnline();
   return (
     <div className="app" data-route="page">
       <a className="skip-link" href="#route-content">
@@ -26,6 +28,14 @@ export default function App() {
             <NavLink to="/staff">工作人員</NavLink>
             <a href={websiteHref()}>活動官網</a>
           </nav>
+          <p className="offline-pill" role="status">
+            {!online && (
+              <>
+                <WifiSlashIcon size={16} aria-hidden="true" />
+                離線中 · 集章與登入需連線
+              </>
+            )}
+          </p>
         </div>
       </header>
       <div id="route-stage">
